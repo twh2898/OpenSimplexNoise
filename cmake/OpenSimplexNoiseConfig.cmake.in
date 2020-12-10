@@ -1,0 +1,11 @@
+get_filename_component(OPENSIMPLEXNOISE_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH ${OPENSIMPLEXNOISE_CMAKE_DIR})
+
+if(NOT TARGET OpenSimplexNoise::OpenSimplexNoise)
+    include("${OPENSIMPLEXNOISE_CMAKE_DIR}/OpenSimplexNoiseTargets.cmake")
+endif()
+
+set(OPENSIMPLEXNOISE_LIBRARIES OpenSimplexNoise::OpenSimplexNoise)
+
