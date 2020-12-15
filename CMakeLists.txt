@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(libOpenSimplexNoise VERSION 1.0.0 LANGUAGES CXX)
 
+find_package(benchmark REQUIRED)
+
 add_library(OpenSimplexNoise 
     OpenSimplexNoise/OpenSimplexNoise.cpp
     OpenSimplexNoise/OpenSimplexNoise.h
@@ -60,4 +62,11 @@ export(EXPORT opensimplexnoise-targets
 
 # Register package in users package registry
 export(PACKAGE OpenSimplexNoise)
+
+
+add_executable(demo demo.cpp)
+
+target_link_libraries(demo OpenSimplexNoise)
+target_link_libraries(demo benchmark)
+
 
