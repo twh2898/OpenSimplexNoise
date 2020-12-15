@@ -64,9 +64,9 @@ export(EXPORT opensimplexnoise-targets
 export(PACKAGE OpenSimplexNoise)
 
 
-add_executable(demo demo.cpp)
+add_executable(noise_benchmark benchmark.cpp)
 
-target_link_libraries(demo OpenSimplexNoise)
-target_link_libraries(demo benchmark)
+target_link_libraries(noise_benchmark OpenSimplexNoise)
+target_link_libraries(noise_benchmark benchmark)
 
 
