@@ -1,51 +1,32 @@
-#include <iostream>
-using namespace std;
-#include <chrono>
-using namespace std::chrono;
-#include <string>
 #include <OpenSimplexNoise.h>
+#include <benchmark/benchmark.h>
 
-#define N 10000000
-
-
-static void printResults(const std::string & name,
-                         high_resolution_clock::time_point start,
-                         high_resolution_clock::time_point end) {
-
-    auto delta = duration_cast<milliseconds>(end - start).count();
-    cout << name << " with " << N << " iterations took " << delta << " ms" << endl;
-
-    auto per = duration_cast<microseconds>(end - start).count() / (double)N;
-    cout << per << " us per call" << endl;
-}
-
-int main() {
-
-    high_resolution_clock::time_point start, end;
-
+static void BM_OpenSimplexNoise_2D(benchmark::State & state) {
     OpenSimplexNoise::Noise noise(0);
-
-    start = high_resolution_clock::now();
-    for (int i = 0; i < N; i++) {
-        double val = noise.eval(i, i * 2);
+    for (auto _ : state) {
+        auto i = state.iterations();
+        double ret = noise.eval(i, i);
     }
-    end = high_resolution_clock::now();
-    printResults("OpenSimplexNoise::eval(x, y)", start, end);
-
-    start = high_resolution_clock::now();
-    for (int i = 0; i < N; i++) {
-        double val = noise.eval(i, i * 2, i * 3);
-    }
-    end = high_resolution_clock::now();
-    printResults("OpenSimplexNoise::eval(x, y, z)", start, end);
-
-    start = high_resolution_clock::now();
-    for (int i = 0; i < N; i++) {
-        double val = noise.eval(i, i * 2, i * 3, i * 4);
-    }
-    end = high_resolution_clock::now();
-    printResults("OpenSimplexNoise::eval(x, y, z, w)", start, end);
-
-    return 0;
 }
+BENCHMARK(BM_OpenSimplexNoise_2D);
+
+static void BM_OpenSimplexNoise_3D(benchmark::State & state) {
+    OpenSimplexNoise::Noise noise(0);
+    for (auto _ : state) {
+        auto i = state.iterations();
+        double ret = noise.eval(i, i, i);
+    }
+}
+BENCHMARK(BM_OpenSimplexNoise_3D);
+
+static void BM_OpenSimplexNoise_4D(benchmark::State & state) {
+    OpenSimplexNoise::Noise noise(0);
+    for (auto _ : state) {
+        auto i = state.iterations();
+        double ret = noise.eval(i, i, i, i);
+    }
+}
+BENCHMARK(BM_OpenSimplexNoise_4D);
+
+BENCHMARK_MAIN();
 
